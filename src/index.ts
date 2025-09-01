@@ -2,6 +2,11 @@ import startHTTPTracker from './trackers/HTTP';
 import UDPTrackerServer from './trackers/UDP';
 import TrackerStats from './utils/TrackerStats';
 
+const origWarn = console.warn
+console.warn = function(message) {
+  origWarn(`\x1b[33m${message}\x1b[0m`);
+};
+
 const trackers = new TrackerStats("./trackers.json")
 
 console.log("Discovering Trackers");
