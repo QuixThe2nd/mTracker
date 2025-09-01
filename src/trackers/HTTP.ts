@@ -41,8 +41,8 @@ class HTTPTracker {
           else console.error('HTTP:', e, buffer.toString());
         }
       } catch (e) {
-        const err = e as { code: string, path: string, errno: number };
-        if (err.code === "ABORT_ERR") console.error(tracker, "Request timed out");
+        const err = e as { code: string, path: string, errno: number, name?: string };
+        if (err.code === "ABORT_ERR" || err.name === "AbortError") console.error(tracker, "Request timed out");
         else if (err.code === "ConnectionRefused") console.error(tracker, "Connection refused by tracker");
         else if (err.code === "FailedToOpenSocket") console.error(tracker, "Failed to connect to tracker");
         else if (err.code === "ECONNRESET") console.error(tracker, "Connection was interrupted");
