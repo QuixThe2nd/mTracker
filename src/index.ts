@@ -20,7 +20,7 @@ Promise.all(trackerLists.map(tracker => fetch(tracker))).then(async responses =>
       const protocol = new URL(tracker).protocol;
       if (!['http:', 'https:', 'udp:'].includes(protocol)) {
         console.error("Unknown tracker protocol", protocol);
-        break;
+        continue;
       }
       if (!trackers.get(tracker)) {
         trackers.add(tracker);
