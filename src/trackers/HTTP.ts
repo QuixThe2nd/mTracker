@@ -37,18 +37,18 @@ class HTTPTracker {
           const response = TrackerResponseSchema.safeParse(decoded);
           if (response.success) return resolve(response.data);
         } catch (e) {
-          if (buffer.toString().includes('<html>')) console.error('HTTP: Tracker responded with HTML');
+          if (buffer.toString().includes('<html>')) console.warn('HTTP: Tracker responded with HTML');
           else console.error('HTTP:', e, buffer.toString());
         }
       } catch (e) {
         const err = e as { code: string, path: string, errno: number, name?: string };
-        if (err.code === "ABORT_ERR" || err.name === "AbortError") console.error(tracker, "Request timed out");
-        else if (err.code === "ConnectionRefused") console.error(tracker, "Connection refused by tracker");
-        else if (err.code === "FailedToOpenSocket") console.error(tracker, "Failed to connect to tracker");
-        else if (err.code === "ECONNRESET") console.error(tracker, "Connection was interrupted");
-        else if (err.code === "ERR_TLS_CERT_ALTNAME_INVALID") console.error(tracker, "SSL validation error");
-        else if (err.code === "UNKNOWN_CERTIFICATE_VERIFICATION_ERROR") console.error(tracker, "Unknown SSL error");
-        else if (err.code === "CERT_HAS_EXPIRED") console.error(tracker, "SSL Certificate expired");
+        if (err.code === "ABORT_ERR" || err.name === "AbortError") console.warn(tracker, "Request timed out");
+        else if (err.code === "ConnectionRefused") console.warn(tracker, "Connection refused by tracker");
+        else if (err.code === "FailedToOpenSocket") console.warn(tracker, "Failed to connect to tracker");
+        else if (err.code === "ECONNRESET") console.warn(tracker, "Connection was interrupted");
+        else if (err.code === "ERR_TLS_CERT_ALTNAME_INVALID") console.warn(tracker, "SSL validation error");
+        else if (err.code === "UNKNOWN_CERTIFICATE_VERIFICATION_ERROR") console.warn(tracker, "Unknown SSL error");
+        else if (err.code === "CERT_HAS_EXPIRED") console.warn(tracker, "SSL Certificate expired");
         else console.error('HTTP:', err);
       }
       return resolve(false);
