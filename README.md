@@ -2,7 +2,7 @@
 A BitTorrent meta-tracker that aggregates multiple public trackers into a single reliable tracker. mTracker also allows for users with both public and private torrents to discover peers via DHT & PeX without enabling it on their client. 
 
 > [!WARNING]
-> mTracker is untested and missing many critical features. To enable UDP, uncomment line 29.
+> mTracker is untested and missing many critical features. To enable UDP, uncomment line 35 of index.ts.
 
 ## Features
 - **Single Tracker Setup**: Replaces all public trackers in your BitTorrent client
