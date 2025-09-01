@@ -1,10 +1,11 @@
 import startHTTPTracker from './trackers/HTTP';
 import UDPTrackerServer from './trackers/UDP';
 import TrackerStats from './utils/TrackerStats';
+import chalk from 'chalk';
 
-const origWarn = console.warn
-console.warn = function(message) {
-  origWarn(`\x1b[33m${message}\x1b[0m`);
+const originalWarn = console.warn;
+console.warn = function(...args) {
+  originalWarn(chalk.yellow(...args));
 };
 
 const trackers = new TrackerStats("./trackers.json")
