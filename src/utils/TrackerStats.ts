@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-interface Stats {
+export interface Stats {
   success: number;
   fail: number;
 }
