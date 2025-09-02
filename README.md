@@ -51,7 +51,7 @@ udp://localhost:6969/announce
 ```
 
 > [!WARNING]
-> **Don't add private torrents** mTracker is designed for public torrents only. Announcing a private torrent to mTracker will result in it being leaked to the DHT network and could get you banned from your private tracker.
+> **Don't add private torrents!** mTracker is designed for public torrents only. Announcing a private torrent to mTracker will result in it being leaked to the DHT network and could get you banned from your private tracker.
 
 ### Disabling DHT
 In your BitTorrent client, globally disable DHT. mTracker handles DHT on your clients behalf making DHT redundant.
