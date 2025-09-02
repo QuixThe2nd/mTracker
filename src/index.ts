@@ -17,14 +17,18 @@ Promise.all(trackerLists.map(tracker => fetch(tracker))).then(async responses =>
   for (const response of responses) {
     const trackerList = (await response.text()).split("\n").filter(tracker => tracker !== "");
     for (const tracker of trackerList) {
-      const protocol = new URL(tracker).protocol;
-      if (!['http:', 'https:', 'udp:'].includes(protocol)) {
-        console.error("Unknown tracker protocol", protocol);
-        continue;
-      }
-      if (!trackers.get(tracker)) {
-        trackers.add(tracker);
-        newTrackers++;
+      try {
+        const protocol = new URL(tracker).protocol;
+        if (!['http:', 'https:', 'udp:'].includes(protocol)) {
+          console.error("Unknown tracker protocol", protocol);
+          continue;
+        }
+        if (!trackers.get(tracker)) {
+          trackers.add(tracker);
+          newTrackers++;
+        }
+      } catch (e) {
+        console.error('Failed to parse tracker list', response.url);
       }
     }
   }
