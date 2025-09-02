@@ -37,7 +37,7 @@ class HTTPTracker {
           const response = TrackerResponseSchema.safeParse(decoded);
           if (response.success) return resolve(response.data);
         } catch (e) {
-          if (buffer.toString().includes('<html>')) console.warn('HTTP: Tracker responded with HTML');
+          if (buffer.toString().includes('<html>')) console.warn(tracker, 'Tracker responded with HTML');
           else console.error('HTTP:', e, buffer.toString());
         }
       } catch (e) {

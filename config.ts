@@ -19,12 +19,10 @@ const CONFIG: Config = {
     'https://torrends.to/torrent-tracker-list/?download=latest',
   ]
 
-  // Enabled tracker protocols, by default all are enabled. Set to `false` to disable.
+  // Enabled peer discovery protocols, by default all are enabled. Set to `false` to disable.
   , enableHTTP: true
   , enableUDP: true
-
-  // Whether or not to use DHT to discover more peers. Set to `false` to disable.
-  , enableDHT: true // Default: true
+  , enableDHT: true
 
   // Interval to check tracker lists for new trackers (in MS)
   , discoverTrackersInterval: 21_600_000 // Default: Every 6 hours
