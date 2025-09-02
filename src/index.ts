@@ -42,7 +42,22 @@ if (args[2] === '--stats')  {
       Stat: "Avg Tracker Hits",
       Value: Math.round(10*tableData.reduce((total, tracker) => total + parseFloat(tracker['Success Rate'])/100, 0))/10
     }
-  ])
+  ]);
+
+  console.table([
+    {
+      Stat: "Known Trackers (HTTP)",
+      Value: Object.keys(stats).filter(tracker => tracker.startsWith('http')).length
+    },
+    {
+      Stat: "Untested Trackers (HTTP)",
+      Value: Object.keys(stats).filter(tracker => tracker.startsWith('http')).map(tracker => stats[tracker]!).filter(tracker => tracker.success + tracker.fail === 1).length
+    },
+    {
+      Stat: "Dead Trackers (HTTP)",
+      Value: Object.keys(stats).filter(tracker => tracker.startsWith('http')).map(tracker => stats[tracker]!).filter(tracker => tracker.success === 1 && tracker.fail >= 1).length
+    }
+  ]);
   process.exit();
 }
 
