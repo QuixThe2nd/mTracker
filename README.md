@@ -77,7 +77,6 @@ New trackers are initially credited with 1 success and 0 failures, giving the tr
 ### Peer & Metadata Discovery
 - PeX
 - BEP33 scrape requests
-- Check tracker lists automatically, not just on first run
 ### Configuration
 - bind to configurable host
 ### Efficiency
