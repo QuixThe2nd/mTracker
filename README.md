@@ -1,4 +1,4 @@
-# mTracker - Unstable
+# mTracker - Beta
 A BitTorrent meta-tracker that aggregates multiple public trackers into a single reliable tracker. mTracker also allows for users with both public and private torrents to discover peers via DHT & PeX without enabling it on their client. 
 
 ## Features
@@ -50,14 +50,14 @@ http://localhost:6969/announce
 udp://localhost:6969/announce
 ```
 
+> [!WARNING]
+> **On first run** mTracker utilises every tracker it is aware of, many of these trackers will fail. Expect a flood of warnings when mTracker is newly setup, they will progressively decrease. If there are 100 dead trackers, on first run you'll get 100 errors, on second run you'll get 50 errors, on third run you'll get 33 errors, etc. Read about [Polling Rates](#polling-rates--tracker-health) to understand how this works.
+
 ### Disabling DHT
 In your BitTorrent client, globally disable DHT. mTracker handles DHT on your clients behalf making DHT redundant.
 
 > [!WARNING]
 > **Don't add private torrents** mTracker is designed for public torrents only. Announcing a private torrent to mTracker will result in it being leaked to the DHT network and could get you banned from your private tracker.
-
-> [!WARNING]
-> **On first run** mTracker utilises every tracker it is aware of, many of these trackers will fail. Expect a flood of warnings when mTracker is newly setup, they will progressively decrease. If there are 100 dead trackers, on first run you'll get 100 errors, on second run you'll get 50 errors, on third run you'll get 33 errors, etc. Read about [Polling Rates](#polling-rates--tracker-health) to understand how this works.
 
 ## Configuration
 All configuration is optional, mTracker works out of the box. To change your config, go to `./config.ts`. Explanations of all values are alongside the config.
