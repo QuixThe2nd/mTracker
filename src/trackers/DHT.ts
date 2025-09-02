@@ -37,7 +37,7 @@ export const startDHTServer = () => new Promise<DHTServer>(resolve => {
     console.log('DHT:  Ready')
     resolve({
       lookup: (infohash: string, port: number, callback: Callback) => {
-        console.log('DHT:  Handling announce', infohash);
+        console.log('DHT:  Handling announce');
         listeners[infohash] = { callback, peers: [] };
         dht.lookup(infohash);
         dht.announce(infohash, port);
