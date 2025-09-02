@@ -9,7 +9,7 @@ export interface DHTServer {
 };
 
 export const startDHTServer = () => new Promise<DHTServer>(resolve => {
-  if (!CONFIG.enableDHT) resolve({ lookup: () => {} });
+  if (!CONFIG.enableDHT) return resolve({ lookup: () => {} });
 
   const listeners: Record<string, { peers: string[]; callback: Callback }> = {};
 
