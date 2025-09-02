@@ -49,6 +49,7 @@ Select all your public torrents and replace all trackers with only these 2:
 http://localhost:6969/announce
 udp://localhost:6969/announce
 ```
+Remember to update your BitTorrent settings to set these trackers to automatically add to new torrents.
 
 > [!WARNING]
 > **On first run** mTracker utilises every tracker it is aware of, many of these trackers will fail. Expect a flood of warnings when mTracker is newly setup, they will progressively decrease. If there are 100 dead trackers, on first run you'll get 100 errors, on second run you'll get 50 errors, on third run you'll get 33 errors, etc. Read about [Polling Rates](#polling-rates--tracker-health) to understand how this works.

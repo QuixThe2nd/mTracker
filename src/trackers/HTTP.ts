@@ -68,11 +68,7 @@ class HTTPTracker {
     this.dht.lookup(parsedInfohash, Number(search.get('port') ?? 20000), (peer) => dhtPeers.push(peer));
 
     const announces = [];
-    for (const tracker of this.trackers.keys().filter(tracker => tracker.startsWith('http'))) {
-      const history = this.trackers.get(tracker)!;
-      const successRate = history.success / (history.success + history.fail);
-      if (Math.random() < successRate) announces.push(this.announce(tracker, Array.from(search).map(([k, v]) => `${k}=${v}`).join('&')));
-    }
+    for (const tracker of this.trackers.select('http')) announces.push(this.announce(tracker, Array.from(search).map(([k, v]) => `${k}=${v}`).join('&')));
     const responses = (await Promise.all(announces)).filter(res => res !== false);
 
     if (responses.length === 0) return { complete: 0, incomplete: 0, interval: 10, "min interval": 10, peers: [] }

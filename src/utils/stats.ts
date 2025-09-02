@@ -1,9 +1,9 @@
-import type { Stats } from "./utils/TrackerStats";
-import type TrackerStats from "./utils/TrackerStats";
+import type { Stats } from "./TrackerStats";
+import type TrackerStats from "./TrackerStats";
 
 export const stats = (trackers: TrackerStats) => {
   const stats: Record<string, Stats> = {};
-  for (const tracker of trackers.keys()) {
+  for (const tracker of trackers.select()) {
     stats[tracker] = trackers.get(tracker)!;
   }
   const tableData = Object.entries(stats)

@@ -14,7 +14,7 @@ export const discoverTrackers = (trackers: TrackerStats) => {
             console.error("Unknown tracker protocol", protocol);
             continue;
           }
-          if (!trackers.get(tracker)) {
+          if (!trackers.has(tracker)) {
             trackers.add(tracker);
             newTrackers++;
           }
