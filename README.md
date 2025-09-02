@@ -1,9 +1,6 @@
 # mTracker - Unstable
 A BitTorrent meta-tracker that aggregates multiple public trackers into a single reliable tracker. mTracker also allows for users with both public and private torrents to discover peers via DHT & PeX without enabling it on their client. 
 
-> [!WARNING]
-> mTracker is untested and missing many critical features. To enable UDP, uncomment line 35 of index.ts.
-
 ## Features
 - **Single Tracker Setup**: Replaces all public trackers in your BitTorrent client
 - **Automatic Tracker Discovery**: Pulls trackers from tracker lists
@@ -39,19 +36,31 @@ bun src/index.ts
 ```
 
 ## Usage
-Start your tracker:
+### Start mTracker
+Run the following:
 ```bash
 bun src/index.ts
 ```
+**This doesn't daemonise mTracker.**
 
-Replace all your public trackers with just this:
+### Using mTracker
+Select all your public torrents and replace all trackers with only these 2:
 ```
 http://localhost:6969/announce
 udp://localhost:6969/announce
 ```
 
+### Disabling DHT
+In your BitTorrent client, globally disable DHT. mTracker handles DHT on your clients behalf making DHT redundant.
+
+> [!WARNING]
+> **Don't add private torrents** mTracker is designed for public torrents only. Announcing a private torrent to mTracker will result in it being leaked to the DHT network and could get you banned from your private tracker.
+
 > [!WARNING]
 > **On first run** mTracker utilises every tracker it is aware of, many of these trackers will fail. Expect a flood of warnings when mTracker is newly setup, they will progressively decrease. If there are 100 dead trackers, on first run you'll get 100 errors, on second run you'll get 50 errors, on third run you'll get 33 errors, etc. Read about [Polling Rates](#polling-rates--tracker-health) to understand how this works.
+
+## Configuration
+All configuration is optional, mTracker works out of the box. To change your config, go to `./config.ts`. Explanations of all values are alongside the config.
 
 ## Insights
 The get statistics including a list of known trackers and their success rates, run:
@@ -70,11 +79,7 @@ New trackers are initially credited with 1 success and 0 failures, giving the tr
 - BEP33 scrape requests
 - Check tracker lists automatically, not just on first run
 ### Configuration
-- Enable/disable HTTP/UDP modes individually
-- Custom timeouts
-- Custom tracker lists
 - bind to configurable host
-- configurable port
 ### Efficiency
 - Re-use UDP connections
 - honour trackers' minimum intervals

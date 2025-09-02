@@ -1,5 +1,6 @@
 import dgram from 'dgram';
 import type TrackerStats from '../utils/TrackerStats';
+import CONFIG from '../../config';
 
 const actions = {
   connect: 0,
@@ -33,7 +34,7 @@ export default class UDPTrackerServer {
 
   static init = (trackers: TrackerStats) => new Promise<UDPTrackerServer>((resolve) => {
     const server = new UDPTrackerServer(trackers);
-    sockets.server.bind(6969, () => {
+    sockets.server.bind(CONFIG.udpPort, () => {
       console.log('UDP:  Tracker listening at udp://localhost:6969/announce')
       resolve(server);
     });

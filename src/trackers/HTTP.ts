@@ -2,6 +2,7 @@ import bencode from 'bencode';
 import z from "zod";
 import type TrackerStats from '../utils/TrackerStats';
 import type { DHTServer } from './DHT';
+import CONFIG from '../../config';
 
 const TrackerResponseSchema = z.object({
   complete: z.number().int().nonnegative(),
@@ -18,8 +19,6 @@ const TrackerResponseSchema = z.object({
 type TrackerResponse = z.infer<typeof TrackerResponseSchema>;
 
 class HTTPTracker {
-  private timeout = 5_000;
-
   constructor(private trackers: TrackerStats, private dht: DHTServer) {}
 
   private announce = async (tracker: string, query: string) => {
@@ -28,7 +27,7 @@ class HTTPTracker {
       setTimeout(() => {
         controller.abort();
         resolve(false)
-      }, this.timeout)
+      }, CONFIG.httpTimeout)
       try {
         const res = await fetch(`${tracker}?${query}`, { signal: controller.signal });
         if (!res.ok) return resolve(false);
@@ -101,8 +100,8 @@ const startHTTPTracker = (trackers: TrackerStats, dht: DHTServer) => {
     req.url.split('?')[1]?.split('&').forEach(pair => params.set(...pair.split('=') as [string, string]));
     return new Response(bencode.encode(await tracker.announceAll(params)));
   }
-  Bun.serve({ port: 6969, routes: { "/announce": announce } });
-  console.log('HTTP: Tracker listening at http://localhost:6969/announce');
+  Bun.serve({ port: CONFIG.httpPort, routes: { "/announce": announce } });
+  console.log(`HTTP: Tracker listening at http://localhost:${CONFIG.httpPort}/announce`);
   return tracker;
 }
 export default startHTTPTracker;

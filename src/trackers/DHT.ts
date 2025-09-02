@@ -1,6 +1,7 @@
 // Peers discovered through DHT are served via the HTTP tracker
 import fs from 'fs';
 import DHT from 'bittorrent-dht';
+import CONFIG from '../../config';
 
 type Callback = (peer: { ip: string; port: number }) => void;
 export interface DHTServer {
@@ -8,9 +9,11 @@ export interface DHTServer {
 };
 
 export const startDHTServer = () => new Promise<DHTServer>(resolve => {
+  if (!CONFIG.enableDHT) resolve({ lookup: () => {} });
+
   const listeners: Record<string, { peers: string[]; callback: Callback }> = {};
 
-  const dht = new DHT({ concurrency: 32 });
+  const dht = new DHT({ concurrency: CONFIG.dhtConcurrency });
   dht.on('peer', (peer: { host: string; port: string }, infoHash: Buffer) => {
     const peerString = `${peer.host}:${peer.host}`;
     const listener = listeners[infoHash.toString('hex')];
@@ -20,16 +23,16 @@ export const startDHTServer = () => new Promise<DHTServer>(resolve => {
     }
   });
 
-  dht.listen(20000, () => {
+  dht.listen(CONFIG.dhtPort, () => {
     const address = dht.address() as { address: string; port: number };
     console.log(`DHT:  Listening at ${address.address}:${address.port}`);
 
     // Save Peers
-    if (!fs.existsSync('dht_nodes.json')) fs.writeFileSync('dht_nodes.json', '[]');
-    const nodes = JSON.parse(fs.readFileSync('dht_nodes.json').toString()) as { host: string; port: number }[];
+    if (!fs.existsSync('store/dht_nodes.json')) fs.writeFileSync('store/dht_nodes.json', '[]');
+    const nodes = JSON.parse(fs.readFileSync('store/dht_nodes.json').toString()) as { host: string; port: number }[];
     nodes.forEach(node => dht.addNode(node));
     setInterval(() => {
-      fs.writeFileSync('dht_nodes.json', JSON.stringify(dht.toJSON().nodes));
+      fs.writeFileSync('store/dht_nodes.json', JSON.stringify(dht.toJSON().nodes));
     }, 60_000);
   });
 
