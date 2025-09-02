@@ -20,7 +20,8 @@ mTracker acts as a proxy between your BitTorrent client and the broader peer dis
 3. **Request Forwarding**: When your client requests a list of peers from mTracker, mTracker forwards the request to all healthy trackers.
 4. **Response Aggregation**: Peer lists are de-duplicated, with the maximum seed/leech statistics returned to your client.
 5. **Unified Response**: Returns a single comprehensive response to your client.
-6. Soon: DHT & PeX integration
+6. **DHT Support**: Torrents are looked up in the DHT network and returned via HTTP announces, with DHT announces handled on your clients behalf.
+6. Soon: PeX integration
 
 ## Installation
 [Install Bun](https://bun.com/docs/installation)
@@ -65,7 +66,6 @@ New trackers are initially credited with 1 success and 0 failures, giving the tr
 
 ## TODO
 ### Peer & Metadata Discovery
-- DHT
 - PeX
 - BEP33 scrape requests
 - Check tracker lists automatically, not just on first run

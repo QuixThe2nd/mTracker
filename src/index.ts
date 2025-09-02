@@ -1,3 +1,4 @@
+import { startDHTServer } from './trackers/DHT';
 import startHTTPTracker from './trackers/HTTP';
 import UDPTrackerServer from './trackers/UDP';
 import TrackerStats, { type Stats } from './utils/TrackerStats';
@@ -67,7 +68,7 @@ console.warn = function(...args) {
 };
 
 console.log("Discovering Trackers");
-const trackerLists = ['https://newtrackon.com/api/all', 'https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt', 'https://cf.trackerslist.com/all.txt', 'https://trackers.run/s/rw_ws_up_hp_hs_v4_v6.txt', 'https://torrends.to/torrent-tracker-list/?download=latest'];
+const trackerLists = ['https://newtrackon.com/api/all', 'https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt', 'https://cf.trackerslist.com/all.txt', 'https://torrends.to/torrent-tracker-list/?download=latest'];
 Promise.all(trackerLists.map(tracker => fetch(tracker))).then(async responses => {
   let newTrackers = 0;
   for (const response of responses) {
@@ -91,5 +92,7 @@ Promise.all(trackerLists.map(tracker => fetch(tracker))).then(async responses =>
   console.log(`Discovered ${newTrackers} Tracker${newTrackers !== 1 ? 's' : ''}`);
 });
 
-startHTTPTracker(trackers);
+
+const dht = await startDHTServer();
+startHTTPTracker(trackers, dht);
 // await UDPTrackerServer.init(trackers);
