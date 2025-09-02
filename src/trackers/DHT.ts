@@ -25,6 +25,7 @@ export const startDHTServer = () => new Promise<DHTServer>(resolve => {
     console.log(`DHT:  Listening at ${address.address}:${address.port}`);
 
     // Save Peers
+    if (!fs.existsSync('dht_nodes.json')) fs.writeFileSync('dht_nodes.json', '[]');
     const nodes = JSON.parse(fs.readFileSync('dht_nodes.json').toString()) as { host: string; port: number }[];
     nodes.forEach(node => dht.addNode(node));
     setInterval(() => {
