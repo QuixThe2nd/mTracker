@@ -81,7 +81,8 @@ class HTTPTracker {
     const rawPeers = [...responses.map(response => response.peers).flat(), ...dhtPeers];
     const peers = [...new Map(rawPeers.map(obj => [`${obj.ip}:${obj.port}`, obj])).values()];
 
-    console.log(`HTTP: Found ${peers.length} peer${peers.length !== 1 ? 's' : ''}`);
+    console.log(`DHT:  Found ${dhtPeers.length} peer${dhtPeers.length !== 1 ? 's' : ''}`);
+    console.log(`HTTP: Found ${peers.length-dhtPeers.length} peer${peers.length !== 1 ? 's' : ''}`);
 
     return {
       complete: Math.max(...responses.map(response => response.complete)),
