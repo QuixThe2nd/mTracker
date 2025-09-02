@@ -1,5 +1,5 @@
-import CONFIG from "../config";
-import type TrackerStats from "./utils/TrackerStats";
+import CONFIG from "../../config";
+import type TrackerStats from "../utils/TrackerStats";
 
 export const discoverTrackers = (trackers: TrackerStats) => {
   console.log("Discovering Trackers");
